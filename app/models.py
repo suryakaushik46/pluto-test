@@ -1,6 +1,7 @@
-from .database import Base
+from .utils.database import Base
 from sqlalchemy import Column,Integer,String
-from .config import settings
+from .utils.config import settings
+
 class Products(Base):
     """_summary_
        ORM model for products table
@@ -89,6 +90,21 @@ class DataFeed_Fields(Base):
        ORM model for datafeed_fields table
     """
     __tablename__= "datafeed_fields"
+    __table_args__ = {'schema': settings.database_schema_name}
+    id = Column(Integer,primary_key=True,nullable=False)
+    name=Column(String)
+    description = Column(String)
+    def to_string(obj):
+        return {"id":obj.id,
+        "name":obj.name,
+        "description":obj.description}
+
+
+class finan_Statuses:
+    """_summary_
+       ORM model for datafeed_fields table
+    """
+    __tablename__= "finan_statuses"
     __table_args__ = {'schema': settings.database_schema_name}
     id = Column(Integer,primary_key=True,nullable=False)
     name=Column(String)

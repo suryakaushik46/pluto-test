@@ -6,11 +6,11 @@ from sqlalchemy import pool
 from alembic import context
 
 from app.models import Base
-from app.config import settings
+from app.utils.config import settings
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url",f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}')
+config.set_main_option("sqlalchemy.url",f'postgresql+psycopg2://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}')
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -58,6 +58,11 @@ def run_migrations_online() -> None:
     In this scenario we need to create an Engine
     and associate a connection with the context.
 
+    Configure migration context
+        1. Pass our models metadata
+        2. Set schema for alembic_version table
+        3. Load all available schemas
+
     """
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
@@ -67,7 +72,10 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
+            version_table_schema=settings.database_schema_name,
+            include_schemas=True
         )
 
         with context.begin_transaction():
