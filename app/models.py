@@ -98,18 +98,3 @@ class DataFeed_Fields(Base):
         return {"id":obj.id,
         "name":obj.name,
         "description":obj.description}
-
-
-class finan_Statuses:
-    """_summary_
-       ORM model for datafeed_fields table
-    """
-    __tablename__= "finan_statuses"
-    __table_args__ = {'schema': settings.database_schema_name}
-    id = Column(Integer,primary_key=True,nullable=False)
-    name=Column(String)
-    description = Column(String)
-    def to_string(obj):
-        return {"id":obj.id,
-        "name":obj.name,
-        "description":obj.description}
