@@ -8,6 +8,7 @@ from xml.dom.minidom import parseString
 from typing import Union,List
 from sqlalchemy import text
 from app.utils.config import settings
+from starlette.responses import FileResponse
 
 
 
@@ -40,7 +41,7 @@ def get_data_in_lidt_of_dictonaries(data,table_name:str):
     """
     list_of_row=[]
     for row in data:
-        list_of_row.append(dict_table_models[table_name].to_string(row))
+        list_of_row.append(dict_table_models[table_name].to_json(row))
     return list_of_row
 
 
@@ -69,7 +70,7 @@ def save_data_as_csv_file(list_of_row:list):
     """
     df=pd.DataFrame(list_of_row)
     df.to_csv('file1.csv')
-    return "your file have been store sucessfully"
+    return FileResponse('/Users/svysyaraju/Documents/sk_personal/FASTAPI/pluto-test/file1.csv', media_type='application/octet-stream',filename=f"prod.csv")
 
 def process_based_on_format(table_name:str,format:str,data):
     """_summary_:

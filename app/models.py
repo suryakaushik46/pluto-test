@@ -11,11 +11,18 @@ class Products(Base):
     product_code = Column(Integer)
     description = Column(String)
     __table_args__ = {'schema': settings.database_schema_name}
-    def to_string(obj):
+    def to_json(obj):
         return {"id":obj.id,
         "product_code":obj.product_code,
         "description":obj.description}
+    def to_int(obj):
+        return obj.product_code
     
+    def colums_data():
+        return '(product_code,description)'
+    
+    def primary_key_ref():
+        return 'product_code'
     
 class Exchanges(Base):
     """_summary_
@@ -32,7 +39,7 @@ class Exchanges(Base):
     iso_code=Column(String)
     delay_time=Column(String)
     timezone_spec=Column(Integer)
-    def to_string(obj):
+    def to_json(obj):
         return {"id":obj.id,
         "exchange_code":obj.exchange_code,
         "name":obj.name,
@@ -42,6 +49,14 @@ class Exchanges(Base):
         "iso_code":obj.iso_code,
         "delay_time":obj.delay_time,
         "timezone_spec":obj.timezone_spec}
+    def to_int(obj):
+        return obj.exchange_code
+    
+    def colums_data():
+        return '(product_code,description)'
+    
+    def primary_key_ref():
+        return 'exchange_code'
 
 class Field_Maps(Base):
     """_summary_
@@ -53,7 +68,7 @@ class Field_Maps(Base):
     field_number=Column(Integer)
     description = Column(String)
     broadcast_name= Column(String)
-    def to_string(obj):
+    def to_json(obj):
         return {"id":obj.id,
         "field_number":obj.field_number,
         "description":obj.description,
@@ -67,7 +82,7 @@ class DataFeed_Types(Base):
     __table_args__ = {'schema': settings.database_schema_name}
     id = Column(Integer,primary_key=True,nullable=False)
     name= Column(String)
-    def to_string(obj):
+    def to_json(obj):
         return {"id":obj.id,
         "name":obj.name}
 
@@ -80,7 +95,7 @@ class DataFeed_Security_Types(Base):
     id = Column(Integer,primary_key=True,nullable=False)
     security_type=Column(Integer)
     description = Column(String)
-    def to_string(obj):
+    def to_json(obj):
         return {"id":obj.id,
         "security_type":obj.security_type,
         "description":obj.description }
@@ -94,22 +109,9 @@ class DataFeed_Fields(Base):
     id = Column(Integer,primary_key=True,nullable=False)
     name=Column(String)
     description = Column(String)
-    def to_string(obj):
+    def to_json(obj):
         return {"id":obj.id,
         "name":obj.name,
         "description":obj.description}
 
 
-class finan_Statuses:
-    """_summary_
-       ORM model for datafeed_fields table
-    """
-    __tablename__= "finan_statuses"
-    __table_args__ = {'schema': settings.database_schema_name}
-    id = Column(Integer,primary_key=True,nullable=False)
-    name=Column(String)
-    description = Column(String)
-    def to_string(obj):
-        return {"id":obj.id,
-        "name":obj.name,
-        "description":obj.description}

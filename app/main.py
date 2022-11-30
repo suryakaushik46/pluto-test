@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from .routers import pluto
+from app.routers import marco_pluto_merge_routes
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from starlette.types import ASGIApp, Scope, Receive, Send
@@ -35,6 +36,7 @@ app.add_middleware(QueryStringFlatteningMiddleware)
 
 # attaching routers to main
 app.include_router(pluto.router)
+app.include_router(marco_pluto_merge_routes.router)
 
 # enabling cors
 origins=["*"]

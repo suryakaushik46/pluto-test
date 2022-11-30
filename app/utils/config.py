@@ -2,7 +2,7 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     """_summary_:
-        mapper to .env file variables
+        mappr to .env file variables
      
     Args:
         BaseSettings (_type_): _description_
